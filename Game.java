@@ -48,13 +48,24 @@ public class Game
         secretRoom = new Room (" in the secret room with 3 big lights");
         secondFloor = new Room (" in the second floor of the mannor");
         basement = new Room(" in the basement of the mannor");
-        
+
+        // add items to rooms
+        Item item1 = new Item("Food on table", 15, "kg");
+        Item item2 = new Item("Knife", 5, "kg");
+        Item item3 = new Item("Stake", 5, "kg");
+        Item item4 = new Item("DogTreats", 2, "gram");
+        diningHall.addItem(item1);
+        kitchen.addItem(item2);
+        secretRoom.addItem(item3);
+        storeroom.addItem(item4);
+
         // initialise room exits
         outside.setExit("north", foyer);
 
         foyer.setExit("north", ingleNook);
         foyer.setExit("east", bathroom);
         foyer.setExit("west", storeroom);
+        foyer.setExit("south", outside);
 
         bathroom.setExit("west", foyer);
 
@@ -101,30 +112,6 @@ public class Game
         System.out.println("Thank you for playing.  Good bye.");
     }
 
-    private void printLocationInfo(){
-        System.out.println(currentRoom.getLongDescription());
-
-        if(currentRoom.getExit("north") != null) {
-            System.out.print("north ");
-        }
-        if(currentRoom.getExit("east") != null) {
-            System.out.print("east ");
-        }
-        if(currentRoom.getExit("south") != null) {
-            System.out.print("south ");
-        }
-        if(currentRoom.getExit("west") != null) {
-            System.out.print("west ");
-        }
-        if(currentRoom.getExit("up") != null) {
-            System.out.print("up ");
-        }
-        if(currentRoom.getExit("down") != null) {
-            System.out.print("down ");
-        }
-        System.out.println();
-    }
-
     /**
      * Print out the opening message for the player.
      */
@@ -135,9 +122,36 @@ public class Game
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        printLocationInfo();
         System.out.println(currentRoom.getLongDescription());
+
     }
+
+    private void printLocationInfo(){
+
+
+        System.out.println(currentRoom.getLongDescription());
+
+        if(currentRoom.getExit("north") != null) {
+
+        }
+        if(currentRoom.getExit("east") != null) {
+
+        }
+        if(currentRoom.getExit("south") != null) {
+
+        }
+        if(currentRoom.getExit("west") != null) {
+
+        }
+        if(currentRoom.getExit("up") != null) {
+
+        }
+        if(currentRoom.getExit("down") != null) {
+
+        }
+        System.out.println();
+    }
+
 
     /**
      * Given a command, process (that is: execute) the command.
@@ -160,8 +174,14 @@ public class Game
         else if (commandWord.equals("go")) {
             goRoom(command);
         }
+        else if(commandWord.equals("look")) {
+            look();
+        }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
+        }
+        else if (commandWord.equals("eat")) {
+            System.out.println("you have eaten and are not hungry anymore");
         }
 
         return wantToQuit;
@@ -176,11 +196,14 @@ public class Game
      */
     private void printHelp() 
     {
+        parser.showCommands();
         System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
+        System.out.println("around at the mansion.");
         System.out.println();
         System.out.println("Your command words are:");
-        System.out.println("   go quit help");
+        System.out.println("   go, quit, help, look, eat ");
+        System.out.println("Your command words are:");
+
     }
 
     /** 
@@ -242,4 +265,9 @@ public class Game
             return true;  // signal that we want to quit
         }
     }
+
+    private void look(){
+        System.out.println(currentRoom.getLongDescription());
+    }
+
 }
