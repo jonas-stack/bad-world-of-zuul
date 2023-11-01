@@ -50,16 +50,35 @@ public class Game
         basement = new Room(" in the basement of the mannor");
         
         // initialise room exits
-        outside.setExits(foyer, null,null,null, null,null);
-        foyer.setExits(ingleNook, bathroom, outside, storeroom, null, null);
-        bathroom.setExits(null, null, null, foyer, null,null);
-        storeroom.setExits(null, foyer, null, null, null, null);
-        ingleNook.setExits(null, diningHall, foyer, office, null, secondFloor );
-        kitchen.setExits(diningHall, null,null,null, basement, null);
-        secretRoom.setExits(office, null,null,null, null, null);
-        diningHall.setExits(null, null, kitchen, ingleNook, null,null);
-        secondFloor.setExits(null,null,null,null, ingleNook, null);
-        basement.setExits(null,null,null,null,null, kitchen);
+        outside.setExit("north", foyer);
+
+        foyer.setExit("north", ingleNook);
+        foyer.setExit("east", bathroom);
+        foyer.setExit("west", storeroom);
+
+        bathroom.setExit("west", foyer);
+
+        storeroom.setExit("east", foyer);
+
+        ingleNook.setExit("south", foyer);
+        ingleNook.setExit("east", diningHall);
+        ingleNook.setExit("west", office);
+        ingleNook.setExit("up", secondFloor);
+
+        secondFloor.setExit("down", ingleNook);
+
+        diningHall.setExit("south", kitchen);
+        diningHall.setExit("west", ingleNook);
+
+        kitchen.setExit("north", diningHall);
+        kitchen.setExit("down", basement);
+
+        basement.setExit("up", kitchen);
+
+        office.setExit("east", ingleNook);
+        office.setExit("south", secretRoom);
+
+        secretRoom.setExit("north", office);
 
         currentRoom = outside;  // start game outside
     }
@@ -83,8 +102,8 @@ public class Game
     }
 
     private void printLocationInfo(){
-        System.out.println("you are " + currentRoom.getDescription());
-        System.out.println("Exits ");
+        System.out.println(currentRoom.getLongDescription());
+
         if(currentRoom.getExit("north") != null) {
             System.out.print("north ");
         }
@@ -117,6 +136,7 @@ public class Game
         System.out.println("Type 'help' if you need help.");
         System.out.println();
         printLocationInfo();
+        System.out.println(currentRoom.getLongDescription());
     }
 
     /**
